@@ -1,0 +1,22 @@
+import numpy as np
+
+filename = "AAPL.csv"
+data = np.genfromtxt(filename, delimiter=',', skip_header=1, usecols=1)  # Loads "Close" prices
+
+days = np.arange(1, len(data) + 1)
+
+
+def moving_average(prices, window):
+    return np.convolve(prices, np.ones(window)/window, mode='valid')
+
+ma_7 = moving_average(data, 7)
+
+daily_change = np.diff(data) / data[:-1] * 100
+
+maximum_price = np.max(data)
+minimum_price = np.min(data)
+
+print(f"Stock Prices: {data}")
+print(f"7-Day Moving Average: {ma_7}")
+print(f"Daily Percentage Change: {daily_change}")
+print(f"Max Price: {maximum_price}, Min Price: {minimum_price}")
